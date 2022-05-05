@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}
+
+<title>Products</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<h1>ALL Products</h1>
+<ul>
+    {%  for i in products  %}
+    <li>Name: {{i.name}}, Price: {{i.price}}</li>
+    {% endfor %}
+</ul>
+<div class="container">
+    <img src="{% static 'images/image1.jpg' %}" height="200" width="200" class="rounded"  />
+</div>
+
+    <form action="" method="POST">
+        {{productform}}
+        <input type="submit" name="submit" value="Submit">
+    </form>
+<hr/>
+     <form action="" method="POST">
+        {{productmodelform}}
+        <input type="submit" name="submit" value="Submit">
+    </form>
+
+    </div>
+{% endblock content%}
