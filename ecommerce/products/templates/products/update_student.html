@@ -2,34 +2,34 @@
 {% load static %}
 {% block title %}
 
-<title>Add Student</title>
+<title>Update Student</title>
 {% endblock title %}
 
 {% block content %}
 <div class="container">
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <h1 class="text-center">Add Student</h1>
+        <h1 class="text-center">Update Student</h1>
         <div class="card p-2">
             <form class="form" action="" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                 <input type="text" class="form-control" id="firstname" name="firstname"
-                       placeholder="Enter firstname">
+                       placeholder="Enter firstname" value="{{student.firstname}}">
                 </div>
                 <div class="mb-3">
                 <input type="text" class="form-control" id="lastname" name="lastname"
-                       placeholder="Enter lastname">
+                       placeholder="Enter lastname" value="{{student.lastname}}">
                 </div>
                 <div class="mb-3">
                 <input type="number" class="form-control" id="batch" name="batch"
-                       placeholder="Enter batch" pattern="[0-9]">
+                       placeholder="Enter batch" value="{{student.batch}}">
                 </div>
                 <div class="mb-3">
                 <input type="text" class="form-control" id="image_url" name="image_url"
-                       placeholder="Enter image url">
+                       placeholder="Enter image url" value="{{student.image_url}}">
                 </div>
-                <button class="btn btn-primary btn-sm py-2" type="submit">Submit</button>
+                <button class="btn btn-primary btn-sm py-2" type="submit">Update</button>
 
             </form>
         </div>

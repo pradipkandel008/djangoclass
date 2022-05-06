@@ -41,4 +41,27 @@ def get_student(request):
     return render(request, 'products/get_student.html', context)
 
 
+def update_student(request, student_id):
+    student_database = Student.objects.get(id=student_id)
+    if request.method == 'POST':
+        student_database.firstname = request.POST['firstname']
+        student_database.lastname = request.POST['lastname']
+        student_database.batch = request.POST['batch']
+        student_database.image_url = request.POST['image_url']
+        student_database.save()
+        return redirect('/products/get_student')
+    context = {
+        'student': student_database
+    }
+    return render(request, 'products/update_student.html', context)
+
+
+def delete_student(request, student_id):
+    student = Student.objects.get(id=student_id)
+    student.delete()
+    return redirect('/products/get_student')
+
+
+
+
 
