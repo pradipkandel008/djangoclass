@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}
+
+<title>Add File</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Add File</h1>
+        <div class="card p-2">
+            <form class="form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                <input type="text" class="form-control" id="title" name="title"
+                       placeholder="Enter title">
+                </div>
+                <div class="mb-3">
+                <input type="text" class="form-control" id="description" name="description"
+                       placeholder="Enter description">
+                </div>
+                <div class="mb-3">
+                <input type="file" class="form-control" id="image" name="image"
+                      >
+                </div>
+                <button class="btn btn-primary btn-sm py-2" type="submit">Submit</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock content%}

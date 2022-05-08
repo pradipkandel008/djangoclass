@@ -34,3 +34,12 @@ class Student(models.Model):
     def __str__(self):
         return self.firstname
 
+
+class FileUpload(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(max_length=3000)
+    image = models.ImageField(upload_to='static/uploads')
+
+    def __str__(self):
+        return self.title
+
