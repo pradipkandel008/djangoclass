@@ -2,18 +2,40 @@
 {% load static %}
 {% block title %}
 
-<title>Get File</title>
+<title>Show File</title>
 {% endblock title %}
 
 {% block content %}
 <div class="container">
 <div class="row">
-<div class="col-md-10 offset-md-1">
-        <h1 class="text-center">All Files List</h1>
+    <div class="col-md-10 offset-md-1">
+        <h1 class="text-center">All Students List</h1>
         <div class="card p-2">
             <a class="btn btn-success btn-sm ms-auto" href="/products/post_file">Add New File</a>
+            <table class="table table-striped">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                {% for i in files %}
+                <tr>
+                    <td>{{i.title}}</td>
+                    <td>{{i.description}}</td>
+                    <td><img src="/{{i.image}}" width="200" alt="image"></td>
+                    <td>
+                        <a href="/products/update_file/{{i.id}}" class="btn btn-success btn-sm">Edit</a>
+                        <a href="/products/delete_file/{{i.id}}"
+                           onclick="return confirm('Are you sure want to delete this file?')"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
+    </div>
 </div>
-</div>
+
 </div>
 {% endblock content%}

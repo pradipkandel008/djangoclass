@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Student, FileUpload
 from django.forms import ModelForm
 
 
@@ -13,5 +13,17 @@ class ProductModelForm(ModelForm):
         model = Product
         fields = '__all__'
         # exclude = ['category','name']
+
+
+class StudentModelForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+class FileModelForm(ModelForm):
+    class Meta:
+        model = FileUpload
+        fields = '__all__'
 
 

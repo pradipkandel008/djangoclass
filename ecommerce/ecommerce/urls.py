@@ -33,6 +33,8 @@ urlpatterns = [
     path('index/', index),
     path('homepage/', homepage),
     path('products/', include('products.urls')),
+    path('', include('accounts.urls')),
+    path('admin-dashboard/', include('admins.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)

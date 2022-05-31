@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+
+<title>Add Student</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Add Student (Modelform)</h1>
+        <div class="card p-2">
+            {% include 'message.html' %}
+            <form class="form" action="" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        {{form_backend.firstname|as_crispy_field}}
+                    </div>
+                    <div class="col">
+                          {{form_backend.lastname|as_crispy_field}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        {{form_backend.batch|as_crispy_field}}
+                    </div>
+                    <div class="col-md-8">
+                        {{form_backend.email|as_crispy_field}}
+                    </div>
+                </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                          {{form_backend.image_url|as_crispy_field}}
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary btn-sm py-2 mt-3" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder ='Enter first name'
+    form_fields[2].placeholder ='Enter last name'
+    form_fields[3].placeholder ='Enter batch'
+    form_fields[4].placeholder ='Enter email'
+</script>
+{% endblock content%}

@@ -43,7 +43,14 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'users.apps.UsersConfig',
     'admins.apps.AdminsConfig',
+    'crispy_forms',
+    'accounts.apps.AccountsConfig',
+    'django_filters',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_URL = '/login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

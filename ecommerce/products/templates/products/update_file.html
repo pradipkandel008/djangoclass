@@ -8,7 +8,33 @@
 {% block content %}
 <div class="container">
 <div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Update File</h1>
+        <div class="card p-2">
+            <form class="form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                <input type="text" class="form-control" id="title" name="title"
+                       placeholder="Enter title" value="{{file.title}}">
+                </div>
+                <div class="mb-3">
+                <input type="text" class="form-control" id="description" name="description"
+                       placeholder="Enter description" value="{{file.description}}">
+                </div>
+                <div class="mb-3">
+                <input type="file" class="form-control" id="image" name="image"
+                      >
+                </div>
+                <div class="mb-3">
+                    <h5>Current Image:</h5>
+                <img src="/{{file.image}}" width="200" alt="image"/>
+                </div>
+                <button class="btn btn-primary btn-sm py-2" type="submit">Submit</button>
 
+            </form>
+        </div>
+    </div>
 </div>
+
 </div>
 {% endblock content%}

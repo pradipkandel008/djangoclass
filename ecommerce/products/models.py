@@ -1,4 +1,6 @@
 from django.db import models
+from django.core import validators
+from django.core.validators import *
 
 # create table table_name(
 #     firstname varchar(255),
@@ -25,9 +27,10 @@ class Product(models.Model):
 
 
 class Student(models.Model):
-    firstname = models.CharField(max_length=200)
-    lastname = models.CharField(max_length=200)
-    batch = models.IntegerField()
+    firstname = models.CharField(max_length=200, validators=[validators.MinLengthValidator(2)])
+    lastname = models.CharField(max_length=200, validators=[validators.MinLengthValidator(2)])
+    batch = models.IntegerField(validators=[validators.MaxValueValidator(100)])
+    email = models.EmailField(null=True, blank=True, validators=[validate_email])
     image_url = models.CharField(max_length=200)
     created_date = models.DateTimeField(auto_now_add=True)
 

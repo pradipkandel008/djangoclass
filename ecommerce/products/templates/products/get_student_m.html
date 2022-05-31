@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}
+
+<title>Show Student</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1 class="text-center">All Students List (Modelform)</h1>
+        <div class="card p-2">
+            <a class="btn btn-success btn-sm ms-auto" href="/products/post_student_m">Add New Student</a>
+            {% include 'message.html' %}
+<!--            <form class="form my-3" method="GET">-->
+<!--                {{student_filter.form}}-->
+<!--                <button class="btn btn-sm btn-secondary" type="submit">Search</button>-->
+<!--            </form>-->
+            <div class="col-md-10">
+<!--                {{students.has_previous}}-->
+<!--                {{students.has_next}}-->
+<!--                {{students.number}}-->
+<!--                {{students.paginator.count}}-->
+<!--                {{students.paginator.num_pages}}-->
+<!--                {{students.paginator.page_range}}-->
+            </div>
+            <div class="col-md-12">
+                {% if students.has_previous %}
+                <a class="btn btn-primary btn-sm" href="?page={{students.previous_page_number}}"><</a>
+                {% endif %}
+
+                {% for i in students.paginator.page_range%}
+
+                {% if students.number == i %}
+                <a class="current_page btn btn-success btn-sm" href="?page={{i}}">{{i}}</a>
+                {% elif i > students.number|add:'-10' and i < students.number|add:'10' %}
+                <a class="pagination_number btn btn-sm btn-secondary" href="?page={{i}}">{{i}}</a>
+                {% endif %}
+
+                {% endfor%}
+
+                {% if students.has_next %}
+                <a class="btn btn-primary btn-sm" href="?page={{students.next_page_number}}">></a>
+                {% endif %}
+            </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Batch</th>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                {% for i in students %}
+                <tr>
+                    <td>{{i.firstname}}</td>
+                    <td>{{i.lastname}}</td>
+                    <td>{{i.batch}}</td>
+                    <td><img src="{{i.image_url}}" width="200" alt="image"></td>
+                    <td>{{i.created_date}}</td>
+                    <td>
+                        <a href="/products/update_student_m/{{i.id}}" class="btn btn-success btn-sm">Edit</a>
+                        <a href="/products/delete_student_m/{{i.id}}"
+                           onclick="return confirm('Are you sure want to delete this student?')"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock content%}

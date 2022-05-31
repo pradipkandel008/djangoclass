@@ -1,0 +1,50 @@
+{% extends 'layout-admin.html' %}
+{% load static %}
+{% block title %}
+
+<title>Admin - Homepage</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+   <h1>Admin Homepage</h1>
+   <div class="row">
+      <div class="col">
+         <div class="card text-white bg-primary mb-3" style="max-width:30rem;">
+            <div class="card-header text-center">Total Students</div>
+            <div class="card-body">
+               <h1 class="card-title text-center">{{students}}</h1>
+            </div>
+         </div>
+      </div>
+      <div class="col">
+         <div class="card text-white bg-warning mb-3" style="max-width:30rem;">
+            <div class="card-header text-center">Total Files</div>
+            <div class="card-body">
+               <h1 class="card-title text-center">{{files}}</h1>
+            </div>
+         </div>
+      </div>
+   </div>
+
+    <div class="row">
+      <div class="col">
+         <div class="card text-white bg-success mb-3" style="max-width:30rem;">
+            <div class="card-header text-center">Total Users</div>
+            <div class="card-body">
+               <h1 class="card-title text-center">{{users}}</h1>
+            </div>
+         </div>
+      </div>
+      <div class="col">
+         <div class="card text-white bg-info mb-3" style="max-width:30rem;">
+            <div class="card-header text-center">Total Admins</div>
+            <div class="card-body">
+               <h1 class="card-title text-center">{{admins}}</h1>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content%}
