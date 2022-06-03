@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}
+
+<title>My cart</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1 class="text-center">My Cart</h1>
+        <div class="card p-2">
+            <a class="btn btn-danger btn-sm ms-auto" href="/products/remove_all_cart_items"
+             onclick="return confirm('Are you sure want to remove all products in cart?')"
+            >Remove All</a>
+            {% include 'message.html' %}
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                {% for i in products %}
+                <tr>
+                    <td>{{i.product.name}}</td>
+                    <td>{{i.product.price}}</td>
+                    <td>{{i.product.category}}</td>
+                    <td><img src="{{i.product.image_url}}" width="200" alt="image"></td>
+                    <td>
+                        <a href="/products/remove_cart_item/{{i.id}}"
+                           onclick="return confirm('Are you sure want to remove this product from cart?')"
+                           class="btn btn-danger btn-sm">Remove from Cart</a>
+
+                        <a href="/products/order_form/{{i.product.id}}/{{i.id}}"
+                           onclick="return confirm('Are you sure want to order this product?')"
+                           class="btn btn-warning btn-sm">Order</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock content%}

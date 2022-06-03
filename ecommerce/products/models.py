@@ -1,6 +1,7 @@
 from django.db import models
 from django.core import validators
 from django.core.validators import *
+from django.contrib.auth.models import User
 
 # create table table_name(
 #     firstname varchar(255),
@@ -26,6 +27,34 @@ class Product(models.Model):
         return self.name
 
 
+class Cart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+
+class Order(models.Model):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Delivered', 'Delivered')
+    )
+    PAYMENT = (
+        ('COD', 'COD'),
+        ('ESewa', 'ESewa'),
+        ('Khalti', 'Khalti')
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    total_price = models.IntegerField()
+    status = models.CharField(choices=STATUS, max_length=200)
+    payment_method = models.CharField(choices=PAYMENT, max_length=200)
+    payment_status = models.BooleanField(default=False)
+    contact_no = models.CharField(max_length=10)
+    contact_address = models.CharField(max_length=200)
+    created_date = models.DateTimeField(auto_now_add=True)
+
+
 class Student(models.Model):
     firstname = models.CharField(max_length=200, validators=[validators.MinLengthValidator(2)])
     lastname = models.CharField(max_length=200, validators=[validators.MinLengthValidator(2)])
@@ -45,4 +74,7 @@ class FileUpload(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
 

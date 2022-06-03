@@ -3,20 +3,20 @@
 {% load crispy_forms_tags %}
 {% block title %}
 
-<title>Django - Password reset confirm</title>
+<title>Add Product</title>
 {% endblock title %}
 
 {% block content %}
 <div class="container">
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <h1 class="text-center">Password Reset Confirm</h1>
+        <h1 class="text-center">Add Product</h1>
         <div class="card p-2">
-            {%  include 'message.html' %}
             <form class="form" action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{form|crispy}}
+                {{form_backend|crispy}}
                 <button class="btn btn-primary btn-sm py-2 mt-3" type="submit">Submit</button>
+
             </form>
         </div>
     </div>

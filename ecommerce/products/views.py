@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Product, Student, FileUpload
-from .forms import ProductForm, ProductModelForm, StudentModelForm, FileModelForm
+from .models import Product, Student, FileUpload, Cart, Order
+from .forms import ProductForm, ProductModelForm, StudentModelForm, FileModelForm, OrderModelForm
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -270,8 +270,168 @@ def delete_file_m(request, file_id):
     return redirect('/products/get_file_m')
 
 
+@login_required
+@user_only
+def post_product(request):
+    if request.method == 'POST':
+        form = ProductModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Product Added Successfully')
+            return redirect('/products/get_product')
+        else:
+            context = {
+                'form_backend': form,
+            }
+            messages.add_message(request, messages.ERROR, 'Please verify form fields')
+            return render(request, 'products/post_product.html', context)
+    context = {
+        'form_backend': ProductModelForm,
+        'activate_ecommerce': 'active'
+    }
+    return render(request, 'products/post_product.html', context)
 
 
+@login_required
+@user_only
+def get_product(request):
+    product_backend = Product.objects.all()
+    context = {
+        'products': product_backend,
+        'activate_ecommerce': 'active'
+    }
+    return render(request, 'products/get_product.html', context)
+
+
+@login_required
+@user_only
+def add_to_cart(request, product_id):
+    user = request.user
+    product = Product.objects.get(id=product_id)
+
+    check_item_presence = Cart.objects.filter(user=user, product=product)
+    if check_item_presence:
+        messages.add_message(request, messages.ERROR, 'Product already present in cart')
+        return redirect('/products/get_product')
+    else:
+        cart = Cart.objects.create(user=user, product=product)
+        if cart:
+            messages.add_message(request, messages.SUCCESS, 'Product added to the cart')
+            return redirect('/products/get_product')
+        else:
+            messages.add_message(request, messages.ERROR, 'Unable to add product to cart')
+            return redirect('/products/get_product')
+
+
+@login_required
+@user_only
+def get_cart_items(request):
+    user = request.user
+    cart_items = Cart.objects.filter(user=user)
+    context = {
+        'products': cart_items,
+        'activate_cart': 'active'
+    }
+    return render(request, 'products/get_cart_items.html', context)
+
+
+def remove_cart_item(request, cart_id):
+    cart_item = Cart.objects.get(id=cart_id)
+    cart_item.delete()
+    messages.add_message(request, messages.SUCCESS, 'Cart item removed')
+    return redirect('/products/get_cart_items')
+
+
+def remove_all_cart_items(request):
+    user = request.user
+    cart_items = Cart.objects.filter(user=user)
+    cart_items.delete()
+    messages.add_message(request, messages.SUCCESS, 'All Cart items removed')
+    return redirect('/products/get_cart_items')
+
+
+def order_form(request, product_id, cart_id):
+    user = request.user
+    product = Product.objects.get(id=product_id)
+    cart_item = Cart.objects.get(id=cart_id)
+
+    if request.method == "POST":
+        form = OrderModelForm(request.POST)
+        if form.is_valid():
+            quantity = request.POST.get('quantity')
+            price = product.price
+            total_price = int(quantity)*int(price)
+            contact_no = request.POST.get('contact_no')
+            contact_address = request.POST.get('contact_address')
+
+            order = Order.objects.create(quantity=quantity,
+                                         total_price=total_price,
+                                         status='Pending',
+                                         payment_method='Esewa',
+                                         payment_status=False,
+                                         contact_no=contact_no,
+                                         contact_address=contact_address,
+                                         product=product,
+                                         user=user)
+            if order:
+                context = {
+                    'order': order,
+                    'cart_item': cart_item
+                }
+                return render(request, 'products/esewa_payment.html', context)
+        else:
+            messages.add_message(request, messages.ERROR, 'Please verify form fields')
+            context = {
+                'form_backend': form
+            }
+            return render(request, 'products/order_form.html', context)
+
+    context = {
+        'form_backend': OrderModelForm
+    }
+    return render(request, 'products/order_form.html', context)
+
+
+import requests as req
+def esewa_verify(request):
+    import xml.etree.ElementTree as ET
+    o_id = request.GET.get('oid')
+    amount = request.GET.get('amt')
+    refId = request.GET.get('refId')
+    url = "https://uat.esewa.com.np/epay/transrec"
+    d = {
+        'amt': amount,
+        'scd': 'EPAYTEST',
+        'rid': refId,
+        'pid': o_id,
+    }
+    resp = req.post(url, d)
+    root = ET.fromstring(resp.content)
+    status = root[0].text.strip()
+    if status == 'Success':
+        order_id = o_id.split("_")[0]
+        order = Order.objects.get(id=order_id)
+        order.payment_status = True
+        order.save()
+        cart_id = o_id.split("_")[1]
+        cart = Cart.objects.get(id=cart_id)
+        cart.delete()
+        messages.add_message(request, messages.SUCCESS, 'Payment Successful')
+        return redirect('/products/my_order')
+    else:
+        messages.add_message(request, messages.ERROR, 'Unable to make payment')
+        return redirect('/products/get_cart_items')
+
+@login_required
+@user_only
+def my_order(request):
+    user = request.user
+    items = Order.objects.filter(user=user).order_by('-id')
+    context = {
+        'items':items,
+        'activate_myorders':'active'
+    }
+    return render(request, 'products/my_order.html', context)
 
 
 

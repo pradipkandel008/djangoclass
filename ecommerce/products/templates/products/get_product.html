@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}
+
+<title>Show Student</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1 class="text-center">All products</h1>
+        <div class="card p-2">
+            <a class="btn btn-success btn-sm ms-auto" href="/products/post_product">Add New Product</a>
+            {% include 'message.html' %}
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+                {% for i in products %}
+                <tr>
+                    <td>{{i.name}}</td>
+                    <td>{{i.price}}</td>
+                    <td>{{i.category}}</td>
+                    <td><img src="{{i.image_url}}" width="200" alt="image"></td>
+                    <td>
+                        <a href="/products/add_to_cart/{{i.id}}"
+                           onclick="return confirm('Are you sure want to add this product to cart?')"
+                           class="btn btn-danger btn-sm">Add to Cart</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock content%}

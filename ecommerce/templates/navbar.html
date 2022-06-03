@@ -7,10 +7,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link {{activate_product}}" aria-current="page" href="/products/products">Products</a>
+          <a class="nav-link {{activate_product}}" aria-current="page" href="{% url 'products'  %}">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{activate_student}}" href="/products/get_student">Students</a>
+          <a class="nav-link {{activate_student}}" href="{% url 'get_student' %}">Students</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{activate_file}}" href="/products/get_file">File Upload</a>
@@ -20,6 +20,16 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {{activate_file_m}}" href="/products/get_file_m">File Upload (Modelform)</a>
+        </li>
+
+         <li class="nav-item">
+          <a class="nav-link {{activate_ecommerce}}" href="/products/get_product">Ecommerce</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{activate_cart}}" href="/products/get_cart_items">Cart</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link {{activate_myorders}}" href="/products/my_order">My Orders</a>
         </li>
       </ul>
 
